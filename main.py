@@ -9,6 +9,7 @@ from utils.places_helper import PlacesHelper
 from utils.hotels_helper import HotelsHelper
 from utils.travel_data_collector import TravelDataCollector
 from utils.gemini_api_helper import GeminiAPIHelper
+from config import GEMINI_API_KEY
 
 app = FastAPI(title="Travel Planner API")
 
@@ -44,10 +45,11 @@ async def create_travel_plan(request: TravelPlanRequestModel):
         # 데이터 수집
         collector = TravelDataCollector(
             place_helper=PlacesHelper(),
-            hotels_helper=HotelsHelper()
+            hotels_helper=HotelsHelper(),
+            gemini_helper=GeminiAPIHelper(GEMINI_API_KEY)
         )
         
-        travel_data = collector.collect_travel_data(
+        travel_data = await collector.collect_travel_data(
             destination={
                 "name": request.destination.name,
                 "location": {

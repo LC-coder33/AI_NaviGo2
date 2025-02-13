@@ -24,3 +24,20 @@ def validate_api_keys():
 
 # 애플리케이션 시작 시 API 키 검증
 validate_api_keys()
+
+# Example Request Body
+{
+  "destination": {
+    "name": "Prague",
+    "lat": 50.0755,
+    "lng": 14.4378
+  },
+  "start_date": "2024-02-20",
+  "end_date": "2024-02-26",
+  "budget": 2000000,
+  "themes": ["문화/역사", "관광명소", "음식/맛집"],
+  "travelers": {
+    "count": 2,
+    "type": "couple"
+  }
+}

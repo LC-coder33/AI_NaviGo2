@@ -145,11 +145,15 @@ class PlacesHelper:
         hotel_keywords = ["hotel", "resort", "motel", "inn", "bnb", "guesthouse", "hostel", "lodging"]
         
         async with aiohttp.ClientSession() as session:
+            multiple_selection = len(place_types) > 2  # ✅ 복수 선택 여부 확인
+            
             for place_type in place_types:
                 next_page_token = None
                 
-                # 최대 2페이지까지만 검색
-                for page in range(3):
+                # ✅ 복수 선택이면 1페이지만, 단일 선택이면 3페이지까지 조회
+                max_pages = 1 if multiple_selection else 2  
+
+                for page in range(max_pages):
                     params = {
                         "location": f"{location['lat']},{location['lng']}",
                         "radius": initial_radius,
@@ -177,16 +181,13 @@ class PlacesHelper:
                                 print("No results found for this page.")
                                 break
                             
-                            # 결과 처리 및 저장
                             for place in batch_results:
                                 place_name = place.get("name", "").lower()
                                 place_types = place.get("types", [])
 
-                                # ❌ 숙박업소(호텔) 필터링: "lodging" 타입이 포함된 경우 제거
+                                # ❌ 숙박업소(호텔) 필터링
                                 if "lodging" in place_types:
                                     continue
-
-                                # ❌ 이름 필터링: 호텔 관련 키워드 포함된 경우 제거
                                 if any(keyword in place_name for keyword in hotel_keywords):
                                     continue
                                 
@@ -207,18 +208,11 @@ class PlacesHelper:
                                     place_details["price_level"] = place["price_level"]
                                 
                                 all_places.append(place_details)
-                            
-                            # 다음 페이지 토큰 확인
-                            next_page_token = data.get("next_page_token")
-                            if not next_page_token:
-                                break
-                                
-                            # 다음 페이지를 위해 2초 대기
-                            await asyncio.sleep(2)
-                            
+
                     except Exception as e:
                         print(f"Error fetching places for type {place_type}: {str(e)}")
                         break
+
         
         # 중복 제거
         unique_places = {place["place_id"]: place for place in all_places}

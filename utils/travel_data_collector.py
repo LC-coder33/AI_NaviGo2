@@ -1,106 +1,191 @@
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
-from typing import List, Dict, Union
-from datetime import datetime
+from typing import Dict, List, Any
+from datetime import date, datetime, timedelta
+import json
 
-router = APIRouter()
+class TravelDataCollector:
+    def __init__(self, place_helper, hotels_helper, gemini_helper):
+        self.place_helper = place_helper
+        self.hotels_helper = hotels_helper
+        self.gemini_helper = gemini_helper
 
-class DestinationModel(BaseModel):
-    city: str
-    location: Dict[str, float]
+    async def collect_travel_data(
+        self,
+        destination: Dict[str, Any],  # name, location{lat, lng}
+        start_date: date,
+        end_date: date,
+        budget: int,
+        themes: List[str],
+        travelers: Dict[str, Any]  # count, type
+    ) -> Dict[str, Any]:
+        """여행 계획 생성에 필요한 모든 데이터를 수집"""
+        
+        # 1. 기본 여행 정보
+        travel_data = {
+            "destination": destination["name"],
+            "duration": {
+                "start_date": start_date.isoformat(),
+                "end_date": end_date.isoformat(),
+                "total_days": (end_date - start_date).days + 1
+            },
+            "budget": budget,
+            "themes": themes,
+            "travelers": travelers,
+            "locations": {}
+        }
 
-class DatesModel(BaseModel):
-    startDate: datetime
-    endDate: datetime
-
-class BudgetModel(BaseModel):
-    total: int
-    daily: int
-    currency: str = "KRW"
-
-class TripInfoModel(BaseModel):
-    destination: DestinationModel
-    dates: DatesModel
-    budget: BudgetModel
-    themes: List[str]
-    travelers: TravelersModel
-
-@router.post("/collect-travel-data", response_model=Dict)
-async def collect_travel_data(
-    trip_info: TripInfoModel
-) -> Dict:
-    """
-    여행 계획에 필요한 모든 데이터를 비동기로 수집하고 구조화합니다.
-    """
-    # 1. 기본 여행 정보 구성
-    trip_data = {
-        "tripInfo": trip_info.dict()
-    }
-
-    # 2. 호텔 정보 수집
-    hotels = await hotels_helper.search_hotels(
-        location=trip_info.destination.location,
-        radius=5000  # 5km 반경
-    )
-    
-    if hotels:
-        # 평점과 가격을 고려하여 상위 호텔 선택
-        recommended_hotel = max(
-            hotels, 
-            key=lambda x: (float(x.rating) * 0.7 + 
-                         (5 - int(x.price_level)) * 0.3)
+        # 2. 호텔 정보 수집
+        hotels = await self.hotels_helper.search_hotels(
+            location=destination["location"],
+            radius=30000  # 30km 반경
         )
         
-        trip_data["accommodation"] = AccommodationModel(
-            hotelName=recommended_hotel.name,
-            location=recommended_hotel.location,
-            address=recommended_hotel.address,
-            rating=recommended_hotel.rating,
-            priceLevel=recommended_hotel.price_level,
-            checkIn="15:00",  # 일반적인 체크인 시간
-            checkOut="11:00",  # 일반적인 체크아웃 시간
-            photos=recommended_hotel.photos,
-            reviews=recommended_hotel.reviews
-        ).dict()
-
-    # 3. 관광지 정보 수집
-    places = await place_helper.get_nearby_places(
-        trip_info.destination.location,
-        trip_info.themes
-    )
-    
-    processed_places = []
-    for place in places:
-        details = await place_helper.get_place_details(place["place_id"])
-        if not details:
-            continue
+        if hotels:
+            travel_data["hotels"] = [{
+                "name": hotel.name,
+                "location": {
+                    "lat": hotel.location.lat,
+                    "lng": hotel.location.lng
+                },
+                "rating": hotel.rating,
+                "price_level": hotel.price_level,
+                "address": hotel.address,
+                "reviews": hotel.reviews[:3] if hotel.reviews else [],
+                "photos": hotel.photos[:3] if hotel.photos else [],
+                "opening_hours": hotel.opening_hours
+            } for hotel in hotels]
             
-        processed_place = PlaceModel(
-            id=place["place_id"],
-            name=place["name"],
-            type=place.get("place_type", "관광지"),
-            location=LocationModel(
-                lat=place["location"]["lat"],
-                lng=place["location"]["lng"]
-            ),
-            details={
-                "address": details.address,
-                "rating": place.get("rating", 0),
-                "reviews_count": place.get("user_ratings_total", 0),
-                "priceLevel": details.price_level,
-                "estimatedDuration": 120,
-                "openingHours": details.opening_hours,
-            }
+            # 위치 데이터 저장
+            for hotel in hotels:
+                travel_data["locations"][hotel.name] = {
+                    "type": "hotel",
+                    "lat": hotel.location.lat,
+                    "lng": hotel.location.lng
+                }
+
+        # 3. 관광지 정보 수집 (음식점 제외)
+        tourist_themes = [theme for theme in themes if theme != "음식/맛집"]
+        if tourist_themes:
+            attractions = await self.place_helper.get_nearby_places(
+                location=destination["location"],
+                selected_themes=tourist_themes
+            )
+            
+            if attractions:
+                travel_data["attractions"] = []
+                for place in attractions:
+                    # 상세 정보 가져오기
+                    details = await self.place_helper.get_place_details(place["place_id"])
+                    if not details:
+                        continue
+                        
+                    attraction_data = {
+                        "name": place["name"],
+                        "location": {
+                            "lat": place["location"]["lat"],
+                            "lng": place["location"]["lng"]
+                        },
+                        "rating": place.get("rating", 0),
+                        "types": place.get("types", []),
+                        "price_level": place.get("price_level", 1),
+                        "reviews": details.reviews if details.reviews else [],
+                        "photos": details.photos[:3] if details.photos else [],
+                        "opening_hours": details.opening_hours if details.opening_hours else [],
+                        "estimated_duration": self._estimate_visit_duration(place["types"]),
+                        "recommended_time": self._get_recommended_visit_time(
+                            place["types"],
+                            details.opening_hours if details.opening_hours else []
+                        )
+                    }
+                    
+                    travel_data["attractions"].append(attraction_data)
+                    travel_data["locations"][place["name"]] = {
+                        "type": "attraction",
+                        "lat": place["location"]["lat"],
+                        "lng": place["location"]["lng"]
+                    }
+
+        # 4. 음식점 정보 수집
+        restaurants = await self.place_helper.get_nearby_places(
+            location=destination["location"],
+            selected_themes=["음식/맛집"]
         )
         
-        # 장소 유형별 예상 소요시간 조정
-        if "museum" in place.get("types", []):
-            processed_place.details["estimatedDuration"] = 180
-        elif "restaurant" in place.get("types", []):
-            processed_place.details["estimatedDuration"] = 90
+        if restaurants:
+            travel_data["restaurants"] = []
+            for place in restaurants:
+                details = await self.place_helper.get_place_details(place["place_id"])
+                if not details:
+                    continue
+                    
+                restaurant_data = {
+                    "name": place["name"],
+                    "location": {
+                        "lat": place["location"]["lat"],
+                        "lng": place["location"]["lng"]
+                    },
+                    "rating": place.get("rating", 0),
+                    "price_level": place.get("price_level", 1),
+                    "cuisine_type": next((t for t in place.get("types", []) if t not in ["restaurant", "food", "point_of_interest", "establishment"]), "일반 음식점"),
+                    "reviews": details.reviews if details.reviews else [],
+                    "photos": details.photos[:3] if details.photos else [],
+                    "opening_hours": details.opening_hours if details.opening_hours else [],
+                    "recommended_time": self._get_restaurant_time()
+                }
+                
+                travel_data["restaurants"].append(restaurant_data)
+                travel_data["locations"][place["name"]] = {
+                    "type": "restaurant",
+                    "lat": place["location"]["lat"],
+                    "lng": place["location"]["lng"]
+                }
+
+        return travel_data
+
+    def _estimate_visit_duration(self, place_types: List[str]) -> int:
+        """장소 유형별 예상 방문 시간 (분 단위) 추정"""
+        duration_estimates = {
+            "museum": 120,
+            "art_gallery": 90,
+            "park": 60,
+            "tourist_attraction": 60,
+            "church": 45,
+            "historic_site": 60
+        }
         
-        processed_places.append(processed_place.dict())
+        # 해당하는 타입 중 가장 긴 시간을 선택
+        max_duration = 60  # 기본값
+        for place_type in place_types:
+            if place_type in duration_estimates:
+                max_duration = max(max_duration, duration_estimates[place_type])
+        
+        return max_duration
 
-    trip_data["places"] = processed_places
+    def _get_recommended_visit_time(
+        self,
+        place_types: List[str],
+        opening_hours: List[str]
+    ) -> Dict[str, str]:
+        """장소별 추천 방문 시간대 결정"""
+        
+        # 기본 추천 시간대
+        recommendations = {
+            "museum": {"start": "10:00", "end": "16:00"},
+            "art_gallery": {"start": "11:00", "end": "15:00"},
+            "park": {"start": "09:00", "end": "17:00"},
+            "tourist_attraction": {"start": "10:00", "end": "16:00"}
+        }
 
-    return trip_data
+        # 장소 타입에 따른 기본 추천 시간 선택
+        for place_type in place_types:
+            if place_type in recommendations:
+                return recommendations[place_type]
+        
+        # 기본값
+        return {"start": "10:00", "end": "17:00"}
+
+    def _get_restaurant_time(self) -> Dict[str, Dict[str, str]]:
+        """음식점 추천 시간대"""
+        return {
+            "lunch": {"start": "12:00", "end": "14:00"},
+            "dinner": {"start": "18:00", "end": "20:00"}
+        }
