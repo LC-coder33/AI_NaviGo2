@@ -177,7 +177,7 @@ class HotelsHelper:
                                 price_level=details.get("price_level", 0),
                                 photos=[
                                     {"photo_reference": photo.get("photo_reference")}
-                                    for photo in details.get("photos", [])[:5]  # 최대 5장의 사진
+                                    for photo in details.get("photos", [])[:1]  # 최대 5장의 사진
                                 ],
                                 location=LocationModel(
                                     lat=details["geometry"]["location"]["lat"],
