@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_adc330c5036732c482bf2e46abcd9774 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-minimap/3.6.1/Control.MiniMap.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-minimap/3.6.1/Control.MiniMap.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_adc330c5036732c482bf2e46abcd9774" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_adc330c5036732c482bf2e46abcd9774 = L.map(
+                "map_adc330c5036732c482bf2e46abcd9774",
+                {
+                    center: [50.0857287, 14.4035505],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 13,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_1540d91324f98c825ad37c05e21c4a99 = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_1540d91324f98c825ad37c05e21c4a99.addTo(map_adc330c5036732c482bf2e46abcd9774);
+        
+    
+            var marker_123256f691a4273b84f69cebfe9d63d3 = L.marker(
+                [50.0857287, 14.4035505],
+                {
+}
+            ).addTo(map_adc330c5036732c482bf2e46abcd9774);
+        
+    
+            var icon_4e6ca2b9f248697e1669a59f0a2b2fbd = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_123256f691a4273b84f69cebfe9d63d3.setIcon(icon_4e6ca2b9f248697e1669a59f0a2b2fbd);
+        
+    
+        var popup_967b840e462aa3be686e121596a0858d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7d64b177066938b0e124a745e872ff53 = $(`<div id="html_7d64b177066938b0e124a745e872ff53" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px; padding: 10px;">                 <h4 style="margin: 0 0 10px 0;">프라하의 아기 예수</h4>                 <p style="margin: 5px 0;"><b>시간:</b> 10:00</p>                 <p style="margin: 5px 0;"><b>소요시간:</b> 120분</p>                 <p style="margin: 5px 0;"><b>유형:</b> attraction</p>                 <p style='margin: 5px 0;'><b>비고:</b> 프라하의 아기 예수상 관람</p>             </div>             </div>`)[0];
+                popup_967b840e462aa3be686e121596a0858d.setContent(html_7d64b177066938b0e124a745e872ff53);
+            
+        
+
+        marker_123256f691a4273b84f69cebfe9d63d3.bindPopup(popup_967b840e462aa3be686e121596a0858d)
+        ;
+
+        
+    
+    
+            marker_123256f691a4273b84f69cebfe9d63d3.bindTooltip(
+                `<div>
+                     1. 프라하의 아기 예수
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_962ff3db8bb015efbc095f1f9ccf96ce = L.marker(
+                [50.0883429, 14.4048487],
+                {
+}
+            ).addTo(map_adc330c5036732c482bf2e46abcd9774);
+        
+    
+            var icon_c392e6a8e7a2845b4e4611b2af322fe9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_962ff3db8bb015efbc095f1f9ccf96ce.setIcon(icon_c392e6a8e7a2845b4e4611b2af322fe9);
+        
+    
+        var popup_0653b5e9af9172ec2e04fb6bf443912b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_21b8ee22a6f3640489ab93ab8630dcee = $(`<div id="html_21b8ee22a6f3640489ab93ab8630dcee" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px; padding: 10px;">                 <h4 style="margin: 0 0 10px 0;">Restaurace Malostranská beseda</h4>                 <p style="margin: 5px 0;"><b>시간:</b> 12:30</p>                 <p style="margin: 5px 0;"><b>소요시간:</b> 90분</p>                 <p style="margin: 5px 0;"><b>유형:</b> restaurant</p>                 <p style='margin: 5px 0;'><b>비고:</b> 체코 전통 음식 맛보기</p>             </div>             </div>`)[0];
+                popup_0653b5e9af9172ec2e04fb6bf443912b.setContent(html_21b8ee22a6f3640489ab93ab8630dcee);
+            
+        
+
+        marker_962ff3db8bb015efbc095f1f9ccf96ce.bindPopup(popup_0653b5e9af9172ec2e04fb6bf443912b)
+        ;
+
+        
+    
+    
+            marker_962ff3db8bb015efbc095f1f9ccf96ce.bindTooltip(
+                `<div>
+                     2. Restaurace Malostranská beseda
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_0a79d1d06e833f615ce234a062da1264 = L.marker(
+                [50.089239, 14.39151],
+                {
+}
+            ).addTo(map_adc330c5036732c482bf2e46abcd9774);
+        
+    
+            var icon_0a8fbcb826e9a73aa96ef435e76b2290 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_0a79d1d06e833f615ce234a062da1264.setIcon(icon_0a8fbcb826e9a73aa96ef435e76b2290);
+        
+    
+        var popup_24ad2e26f357aa9eec0061382b0d217e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_49cd042888beea379134ce8ec96898f3 = $(`<div id="html_49cd042888beea379134ce8ec96898f3" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px; padding: 10px;">                 <h4 style="margin: 0 0 10px 0;">로레타</h4>                 <p style="margin: 5px 0;"><b>시간:</b> 14:30</p>                 <p style="margin: 5px 0;"><b>소요시간:</b> 120분</p>                 <p style="margin: 5px 0;"><b>유형:</b> attraction</p>                 <p style='margin: 5px 0;'><b>비고:</b> 로레타 성지 순례</p>             </div>             </div>`)[0];
+                popup_24ad2e26f357aa9eec0061382b0d217e.setContent(html_49cd042888beea379134ce8ec96898f3);
+            
+        
+
+        marker_0a79d1d06e833f615ce234a062da1264.bindPopup(popup_24ad2e26f357aa9eec0061382b0d217e)
+        ;
+
+        
+    
+    
+            marker_0a79d1d06e833f615ce234a062da1264.bindTooltip(
+                `<div>
+                     3. 로레타
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_1644408030d436769191c4f24afa91a7 = L.marker(
+                [50.0820693, 14.4186192],
+                {
+}
+            ).addTo(map_adc330c5036732c482bf2e46abcd9774);
+        
+    
+            var icon_c238d49fe24d7076dc4a767a993e96bc = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_1644408030d436769191c4f24afa91a7.setIcon(icon_c238d49fe24d7076dc4a767a993e96bc);
+        
+    
+        var popup_b55cbf11addeef0f81cba23a49955302 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5fadacf3dbc20a047305f36f62bcd92d = $(`<div id="html_5fadacf3dbc20a047305f36f62bcd92d" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px; padding: 10px;">                 <h4 style="margin: 0 0 10px 0;">카페 루브르</h4>                 <p style="margin: 5px 0;"><b>시간:</b> 19:00</p>                 <p style="margin: 5px 0;"><b>소요시간:</b> 90분</p>                 <p style="margin: 5px 0;"><b>유형:</b> restaurant</p>                 <p style='margin: 5px 0;'><b>비고:</b> 분위기 좋은 카페에서 저녁 식사</p>             </div>             </div>`)[0];
+                popup_b55cbf11addeef0f81cba23a49955302.setContent(html_5fadacf3dbc20a047305f36f62bcd92d);
+            
+        
+
+        marker_1644408030d436769191c4f24afa91a7.bindPopup(popup_b55cbf11addeef0f81cba23a49955302)
+        ;
+
+        
+    
+    
+            marker_1644408030d436769191c4f24afa91a7.bindTooltip(
+                `<div>
+                     5. 카페 루브르
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_77e1b53dee66a27224affe7b74df2e2e = L.polyline(
+                [[50.0857287, 14.4035505], [50.0883429, 14.4048487], [50.089239, 14.39151], [50.0820693, 14.4186192]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": "10", "dashOffset": null, "fill": false, "fillColor": "purple", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_adc330c5036732c482bf2e46abcd9774);
+        
+    
+            var tile_layer_4fabec92a92df30b3f40baca073ebe16 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detect_retina": false, "max_native_zoom": 19, "max_zoom": 19, "min_zoom": 0, "no_wrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+            var mini_map_23e47ea823cd3dd2c87199420ee03a31 = new L.Control.MiniMap(
+                tile_layer_4fabec92a92df30b3f40baca073ebe16,
+                {
+  "position": "bottomright",
+  "width": 150,
+  "height": 150,
+  "collapsedWidth": 25,
+  "collapsedHeight": 25,
+  "zoomLevelOffset": -5,
+  "centerFixed": false,
+  "zoomAnimation": false,
+  "toggleDisplay": true,
+  "autoToggleDisplay": false,
+  "minimized": false,
+}
+            );
+            map_adc330c5036732c482bf2e46abcd9774.addControl(mini_map_23e47ea823cd3dd2c87199420ee03a31);
+        
+    
+            map_adc330c5036732c482bf2e46abcd9774.fitBounds(
+                [[50.0857287, 14.4035505], [50.0883429, 14.4048487], [50.089239, 14.39151], [50.0820693, 14.4186192]],
+                {}
+            );
+        
+    
+            var measure_control_d5e892e2b6b952e6d21403696552646b = new L.Control.Measure(
+                {
+  "position": "topleft",
+  "primaryLengthUnit": "meters",
+  "secondaryLengthUnit": "miles",
+  "primaryAreaUnit": "sqmeters",
+  "secondaryAreaUnit": "acres",
+});
+            map_adc330c5036732c482bf2e46abcd9774.addControl(measure_control_d5e892e2b6b952e6d21403696552646b);
+
+            // Workaround for using this plugin with Leaflet>=1.8.0
+            // https://github.com/ljagis/leaflet-measure/issues/171
+            L.Control.Measure.include({
+                _setCaptureMarkerIcon: function () {
+                    // disable autopan
+                    this._captureMarker.options.autoPanOnFocus = false;
+                    // default function
+                    this._captureMarker.setIcon(
+                        L.divIcon({
+                            iconSize: this._map.getSize().multiplyBy(2)
+                        })
+                    );
+                },
+            });
+
+        
+    
+            L.control.fullscreen(
+                {
+  "position": "topleft",
+  "title": "Full Screen",
+  "titleCancel": "Exit Full Screen",
+  "forceSeparateButton": false,
+}
+            ).addTo(map_adc330c5036732c482bf2e46abcd9774);
+        
+</script>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_67b940b44c5636f4fec6165481671296 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-minimap/3.6.1/Control.MiniMap.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-minimap/3.6.1/Control.MiniMap.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_67b940b44c5636f4fec6165481671296" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_67b940b44c5636f4fec6165481671296 = L.map(
+                "map_67b940b44c5636f4fec6165481671296",
+                {
+                    center: [50.0788688, 14.4170518],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 13,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_4e97210a8654fd73c8be393c1895d66b = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_4e97210a8654fd73c8be393c1895d66b.addTo(map_67b940b44c5636f4fec6165481671296);
+        
+    
+            var marker_31e3815981c46b6cc155768318deb102 = L.marker(
+                [50.0788688, 14.4170518],
+                {
+}
+            ).addTo(map_67b940b44c5636f4fec6165481671296);
+        
+    
+            var icon_5e44e55bc84a00ee04bb64926612367f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+            marker_31e3815981c46b6cc155768318deb102.setIcon(icon_5e44e55bc84a00ee04bb64926612367f);
+        
+    
+        var popup_4d5b1455a386aabdca8e6c9ccaa0e50c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5849526257d9a86c306f18d2c3d80362 = $(`<div id="html_5849526257d9a86c306f18d2c3d80362" style="width: 100.0%; height: 100.0%;">             <div style="width: 200px; padding: 10px;">                 <h4 style="margin: 0 0 10px 0;">우 플레쿠</h4>                 <p style="margin: 5px 0;"><b>시간:</b> 18:30</p>                 <p style="margin: 5px 0;"><b>소요시간:</b> 90분</p>                 <p style="margin: 5px 0;"><b>유형:</b> restaurant</p>                 <p style='margin: 5px 0;'><b>비고:</b> 프라하 전통 맥주와 음식을 즐기기</p>             </div>             </div>`)[0];
+                popup_4d5b1455a386aabdca8e6c9ccaa0e50c.setContent(html_5849526257d9a86c306f18d2c3d80362);
+            
+        
+
+        marker_31e3815981c46b6cc155768318deb102.bindPopup(popup_4d5b1455a386aabdca8e6c9ccaa0e50c)
+        ;
+
+        
+    
+    
+            marker_31e3815981c46b6cc155768318deb102.bindTooltip(
+                `<div>
+                     1. 우 플레쿠
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var tile_layer_4a180a0c7fa477c54da12b803bc7765b = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detect_retina": false, "max_native_zoom": 19, "max_zoom": 19, "min_zoom": 0, "no_wrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+            var mini_map_009b64ae36629069fa38e5f443bf562c = new L.Control.MiniMap(
+                tile_layer_4a180a0c7fa477c54da12b803bc7765b,
+                {
+  "position": "bottomright",
+  "width": 150,
+  "height": 150,
+  "collapsedWidth": 25,
+  "collapsedHeight": 25,
+  "zoomLevelOffset": -5,
+  "centerFixed": false,
+  "zoomAnimation": false,
+  "toggleDisplay": true,
+  "autoToggleDisplay": false,
+  "minimized": false,
+}
+            );
+            map_67b940b44c5636f4fec6165481671296.addControl(mini_map_009b64ae36629069fa38e5f443bf562c);
+        
+    
+            map_67b940b44c5636f4fec6165481671296.fitBounds(
+                [[50.0788688, 14.4170518]],
+                {}
+            );
+        
+    
+            var measure_control_8beb128b2bb9c2288d36a25d6aa50c75 = new L.Control.Measure(
+                {
+  "position": "topleft",
+  "primaryLengthUnit": "meters",
+  "secondaryLengthUnit": "miles",
+  "primaryAreaUnit": "sqmeters",
+  "secondaryAreaUnit": "acres",
+});
+            map_67b940b44c5636f4fec6165481671296.addControl(measure_control_8beb128b2bb9c2288d36a25d6aa50c75);
+
+            // Workaround for using this plugin with Leaflet>=1.8.0
+            // https://github.com/ljagis/leaflet-measure/issues/171
+            L.Control.Measure.include({
+                _setCaptureMarkerIcon: function () {
+                    // disable autopan
+                    this._captureMarker.options.autoPanOnFocus = false;
+                    // default function
+                    this._captureMarker.setIcon(
+                        L.divIcon({
+                            iconSize: this._map.getSize().multiplyBy(2)
+                        })
+                    );
+                },
+            });
+
+        
+    
+            L.control.fullscreen(
+                {
+  "position": "topleft",
+  "title": "Full Screen",
+  "titleCancel": "Exit Full Screen",
+  "forceSeparateButton": false,
+}
+            ).addTo(map_67b940b44c5636f4fec6165481671296);
+        
+</script>
+</html>

@@ -1,0 +1,343 @@
+{
+  "summary": {
+    "main_attractions": [
+      "프라하 성",
+      "카를교",
+      "구시가지 광장",
+      "성 비투스 대성당",
+      "국립박물관",
+      "알폰스 무하 박물관"
+    ],
+    "route_overview": "프라하의 주요 명소를 중심으로, 박물관, 미술관, 역사적인 장소를 방문하고, 맛있는 체코 음식점을 경험하는 일정입니다. 대중교통 또는 도보를 이용하여 이동하며, 여행 피로도를 고려하여 여유로운 일정을 계획했습니다."
+  },
+  "daily_schedule": [
+    {
+      "day": 1,
+      "date": "2024-02-20",
+      "activities": [
+        {
+          "type": "restaurant",
+          "time": "18:30",
+          "place": "우 플레쿠",
+          "duration": "90",
+          "notes": "프라하 전통 맥주와 음식을 즐기기",
+          "location": {
+            "type": "restaurant",
+            "lat": 50.0788688,
+            "lng": 14.4170518
+          }
+        },
+        {
+          "type": "attraction",
+          "time": "20:30",
+          "place": "카를교 야경 감상",
+          "duration": "60",
+          "notes": "카를교의 아름다운 야경 즐기기"
+        }
+      ],
+      "total_distance": "2"
+    },
+    {
+      "day": 2,
+      "date": "2024-02-21",
+      "activities": [
+        {
+          "type": "attraction",
+          "time": "10:00",
+          "place": "프라하의 아기 예수",
+          "duration": "120",
+          "notes": "프라하의 아기 예수상 관람",
+          "location": {
+            "type": "attraction",
+            "lat": 50.0857287,
+            "lng": 14.4035505
+          }
+        },
+        {
+          "type": "restaurant",
+          "time": "12:30",
+          "place": "Restaurace Malostranská beseda",
+          "duration": "90",
+          "notes": "체코 전통 음식 맛보기",
+          "location": {
+            "type": "restaurant",
+            "lat": 50.0883429,
+            "lng": 14.4048487
+          }
+        },
+        {
+          "type": "attraction",
+          "time": "14:30",
+          "place": "로레타",
+          "duration": "120",
+          "notes": "로레타 성지 순례",
+          "location": {
+            "type": "attraction",
+            "lat": 50.089239,
+            "lng": 14.39151
+          }
+        },
+        {
+          "type": "attraction",
+          "time": "17:00",
+          "place": "프라하 성",
+          "duration": "60",
+          "notes": "프라하 성 외부 둘러보기"
+        },
+        {
+          "type": "restaurant",
+          "time": "19:00",
+          "place": "카페 루브르",
+          "duration": "90",
+          "notes": "분위기 좋은 카페에서 저녁 식사",
+          "location": {
+            "type": "restaurant",
+            "lat": 50.0820693,
+            "lng": 14.4186192
+          }
+        }
+      ],
+      "total_distance": "5"
+    },
+    {
+      "day": 3,
+      "date": "2024-02-22",
+      "activities": [
+        {
+          "type": "attraction",
+          "time": "10:00",
+          "place": "국립박물관",
+          "duration": "120",
+          "notes": "체코 역사와 문화를 만끽",
+          "location": {
+            "type": "attraction",
+            "lat": 50.0789704,
+            "lng": 14.4309369
+          }
+        },
+        {
+          "type": "restaurant",
+          "time": "12:30",
+          "place": "카페 사보이",
+          "duration": "90",
+          "notes": "아름다운 인테리어와 맛있는 브런치",
+          "location": {
+            "type": "restaurant",
+            "lat": 50.080972,
+            "lng": 14.4072993
+          }
+        },
+        {
+          "type": "attraction",
+          "time": "14:30",
+          "place": "알폰스 무하 박물관",
+          "duration": "120",
+          "notes": "아르누보 거장의 작품 감상"
+        },
+        {
+          "type": "attraction",
+          "time": "17:00",
+          "place": "구시가지 광장",
+          "duration": "60",
+          "notes": "천문시계 구경 및 주변 관광"
+        },
+        {
+          "type": "restaurant",
+          "time": "19:00",
+          "place": "Lehká hlava - vegetarian restaurant",
+          "duration": "90",
+          "notes": "채식 레스토랑에서 건강한 저녁 식사",
+          "location": {
+            "type": "restaurant",
+            "lat": 50.0840921,
+            "lng": 14.4145105
+          }
+        }
+      ],
+      "total_distance": "3"
+    },
+    {
+      "day": 4,
+      "date": "2024-02-23",
+      "activities": [
+        {
+          "type": "attraction",
+          "time": "10:00",
+          "place": "Lobkowicz Palace",
+          "duration": "120",
+          "notes": "로브코비츠 가문의 역사와 예술품 감상",
+          "location": {
+            "type": "attraction",
+            "lat": 50.0916483,
+            "lng": 14.4049501
+          }
+        },
+        {
+          "type": "restaurant",
+          "time": "12:30",
+          "place": "베이크샵(올드 타운점)",
+          "duration": "90",
+          "notes": "간단한 빵과 커피로 점심 해결",
+          "location": {
+            "type": "restaurant",
+            "lat": 50.0897088,
+            "lng": 14.4223242
+          }
+        },
+        {
+          "type": "attraction",
+          "time": "14:30",
+          "place": "Království Železnic",
+          "duration": "120",
+          "notes": "디오라마 철도 왕국 관람",
+          "location": {
+            "type": "attraction",
+            "lat": 50.07127120000001,
+            "lng": 14.4026256
+          }
+        },
+        {
+          "type": "restaurant",
+          "time": "18:30",
+          "place": "Pizzeria Ristorante Corleone",
+          "duration": "90",
+          "notes": "이탈리아 음식 맛보기",
+          "location": {
+            "type": "restaurant",
+            "lat": 50.07161,
+            "lng": 14.404534
+          }
+        }
+      ],
+      "total_distance": "4"
+    },
+    {
+      "day": 5,
+      "date": "2024-02-24",
+      "activities": [
+        {
+          "type": "attraction",
+          "time": "10:00",
+          "place": "National Technical Museum",
+          "duration": "120",
+          "notes": "체코의 기술 발전 역사 살펴보기",
+          "location": {
+            "type": "attraction",
+            "lat": 50.0973756,
+            "lng": 14.4249052
+          }
+        },
+        {
+          "type": "restaurant",
+          "time": "12:30",
+          "place": "La Gare 프렌치 레스토랑",
+          "duration": "90",
+          "notes": "프랑스 요리 맛보기",
+          "location": {
+            "type": "restaurant",
+            "lat": 50.0884899,
+            "lng": 14.4305742
+          }
+        },
+        {
+          "type": "attraction",
+          "time": "14:30",
+          "place": "Jerusalem Synagogue",
+          "duration": "120",
+          "notes": "예루살렘 시나고그 방문",
+          "location": {
+            "type": "attraction",
+            "lat": 50.0847038,
+            "lng": 14.4320204
+          }
+        },
+        {
+          "type": "restaurant",
+          "time": "18:30",
+          "place": "SaSaZu",
+          "duration": "90",
+          "notes": "아시아 퓨전 음식 즐기기",
+          "location": {
+            "type": "restaurant",
+            "lat": 50.09927760000001,
+            "lng": 14.4447256
+          }
+        }
+      ],
+      "total_distance": "6"
+    },
+    {
+      "day": 6,
+      "date": "2024-02-25",
+      "activities": [
+        {
+          "type": "attraction",
+          "time": "10:00",
+          "place": "Chateau Melnik",
+          "duration": "120",
+          "notes": "멜니크 성과 와이너리 투어",
+          "location": {
+            "type": "restaurant",
+            "lat": 50.3508052,
+            "lng": 14.4736948
+          }
+        },
+        {
+          "type": "restaurant",
+          "time": "12:30",
+          "place": "Chateau Melnik (식당)",
+          "duration": "90",
+          "notes": "멜니크 성 레스토랑에서 점심 식사"
+        },
+        {
+          "type": "attraction",
+          "time": "15:00",
+          "place": "성 비투스 대성당",
+          "duration": "120",
+          "notes": "웅장한 고딕 양식의 성당 내부 둘러보기"
+        },
+        {
+          "type": "restaurant",
+          "time": "18:30",
+          "place": "Hany Bany",
+          "duration": "90",
+          "notes": "현지 음식 즐기기",
+          "location": {
+            "type": "restaurant",
+            "lat": 50.08793720000001,
+            "lng": 14.4162121
+          }
+        }
+      ],
+      "total_distance": "40"
+    },
+    {
+      "day": 7,
+      "date": "2024-02-26",
+      "activities": [
+        {
+          "type": "attraction",
+          "time": "10:00",
+          "place": "레고 박물관",
+          "duration": "120",
+          "notes": "다양한 레고 작품 감상",
+          "location": {
+            "type": "attraction",
+            "lat": 50.0826241,
+            "lng": 14.41937360000001
+          }
+        }
+      ],
+      "total_distance": "1"
+    }
+  ],
+  "maps": {
+    "day_1": "travel_maps\\day_1_schedule.html",
+    "day_2": "travel_maps\\day_2_schedule.html",
+    "day_3": "travel_maps\\day_3_schedule.html",
+    "day_4": "travel_maps\\day_4_schedule.html",
+    "day_5": "travel_maps\\day_5_schedule.html",
+    "day_6": "travel_maps\\day_6_schedule.html",
+    "day_7": "travel_maps\\day_7_schedule.html"
+  }
+}

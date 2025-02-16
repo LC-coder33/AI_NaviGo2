@@ -2,6 +2,10 @@ import google.generativeai as genai
 from typing import Dict, Any
 import json
 from datetime import datetime
+import folium
+from folium import plugins
+from fastapi.responses import FileResponse
+import os
 from config import GEMINI_API_KEY
 
 class GeminiAPIHelper:
@@ -14,6 +18,11 @@ class GeminiAPIHelper:
             "max_output_tokens": 8192,
         }
         self.model = genai.GenerativeModel('gemini-2.0-flash', generation_config=generation_config)
+        self.maps_dir = "travel_maps"
+        
+        # 지도 저장 디렉토리 생성
+        if not os.path.exists(self.maps_dir):
+            os.makedirs(self.maps_dir)
 
     def _clean_json_response(self, text: str) -> str:
         """Gemini 응답에서 JSON 부분만 추출"""
@@ -54,6 +63,98 @@ class GeminiAPIHelper:
                 place_info.append(info)
         
         return "\n".join(place_info)
+
+    def _create_travel_map(self, schedule_data: Dict[str, Any], day: int) -> str:
+        """특정 일자의 여행 일정을 지도로 시각화"""
+        
+        # 해당 일자의 활동 찾기
+        daily_schedule = next(
+            (schedule for schedule in schedule_data["daily_schedule"] 
+             if schedule["day"] == day), None
+        )
+        
+        if not daily_schedule or not daily_schedule["activities"]:
+            return None
+            
+        activities = daily_schedule["activities"]
+
+        # 첫 번째 장소의 위치로 지도 중심 설정
+        first_location = activities[0]["location"]
+        m = folium.Map(
+            location=[first_location["lat"], first_location["lng"]],
+            zoom_start=13,
+            tiles="CartoDB positron"
+        )
+        
+        # 장소 유형별 색상 설정
+        colors = {
+            "attraction": "red",
+            "restaurant": "blue",
+            "hotel": "green"
+        }
+        
+        # 경로 좌표 저장용
+        route_coordinates = []
+        
+        # 각 장소에 마커 추가
+        for idx, activity in enumerate(activities, 1):
+            if "location" not in activity:
+                continue
+                
+            lat = activity["location"]["lat"]
+            lng = activity["location"]["lng"]
+            route_coordinates.append([lat, lng])
+            
+            # HTML로 팝업 내용 구성
+            popup_html = f"""
+            <div style="width: 200px; padding: 10px;">
+                <h4 style="margin: 0 0 10px 0;">{activity['place']}</h4>
+                <p style="margin: 5px 0;"><b>시간:</b> {activity['time']}</p>
+                <p style="margin: 5px 0;"><b>소요시간:</b> {activity['duration']}분</p>
+                <p style="margin: 5px 0;"><b>유형:</b> {activity['type']}</p>
+                {f"<p style='margin: 5px 0;'><b>비고:</b> {activity['notes']}</p>" if 'notes' in activity else ''}
+            </div>
+            """
+            
+            # 마커 생성 및 추가
+            folium.Marker(
+                [lat, lng],
+                popup=folium.Popup(popup_html, max_width=300),
+                tooltip=f"{idx}. {activity['place']}",
+                icon=folium.Icon(
+                    color=colors.get(activity["type"], "gray"),
+                    icon='info-sign'
+                )
+            ).add_to(m)
+        
+        # 경로 선 그리기
+        if len(route_coordinates) > 1:
+            folium.PolyLine(
+                route_coordinates,
+                weight=3,
+                color='purple',
+                opacity=0.8,
+                dash_array='10'
+            ).add_to(m)
+        
+        # 미니맵 추가
+        minimap = plugins.MiniMap(toggle_display=True)
+        m.add_child(minimap)
+        
+        # 전체 마커가 보이도록 지도 범위 조정
+        m.fit_bounds(route_coordinates)
+        
+        # 거리 측정 도구 추가
+        plugins.MeasureControl(position='topleft').add_to(m)
+        
+        # 전체화면 버튼 추가
+        plugins.Fullscreen().add_to(m)
+        
+        # HTML 파일로 저장
+        output_file = os.path.join(self.maps_dir, f"day_{day}_schedule.html")
+        m.save(output_file)
+        
+        return output_file
 
     def create_travel_plan(self, travel_data: Dict[str, Any]) -> Dict[str, Any]:
         """여행 데이터를 기반으로 Gemini API를 사용하여 상세 여행 계획 생성"""
@@ -128,6 +229,7 @@ class GeminiAPIHelper:
 {json_template}"""
 
         try:
+            # Gemini API로 여행 계획 생성
             for attempt in range(2):
                 try:
                     response = self.model.generate_content(prompt, stream=False)
@@ -142,6 +244,16 @@ class GeminiAPIHelper:
                                     place_name = activity["place"]
                                     if place_name in travel_data["locations"]:
                                         activity["location"] = travel_data["locations"][place_name]
+                            
+                            # 각 일자별 지도 생성
+                            plan_data["maps"] = {}
+                            for day in range(1, total_days + 1):
+                                try:
+                                    map_file = self._create_travel_map(plan_data, day)
+                                    if map_file:
+                                        plan_data["maps"][f"day_{day}"] = map_file
+                                except Exception as e:
+                                    print(f"Error creating map for day {day}: {str(e)}")
                             
                             return plan_data
                 except Exception as e:
@@ -158,3 +270,10 @@ class GeminiAPIHelper:
                 "message": str(e),
                 "raw_response": response.text if 'response' in locals() else None
             }
+
+    def get_map_file(self, day: int) -> str:
+        """특정 일자의 지도 HTML 파일 경로 반환"""
+        map_file = os.path.join(self.maps_dir, f"day_{day}_schedule.html")
+        if os.path.exists(map_file):
+            return map_file
+        return None
