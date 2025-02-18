@@ -114,6 +114,7 @@ class HotelsHelper:
         location: Dict[str, float], 
         radius: int = 5000
     ) -> List[HotelModel]:
+        print(f"[HotelsHelper] Starting hotel search with radius: {radius}m")
         """
         주어진 위치의 호텔 정보를 비동기로 검색합니다.
         

@@ -41,3 +41,36 @@ validate_api_keys()
     "type": "couple"
   }
 }
+
+{
+  "destination": {
+    "name": "오스트리아 비엔나",
+    "lat": 48.20806959999999,
+    "lng": 16.3713095
+  },
+  "start_date": "2024-02-20",
+  "end_date": "2024-02-26",
+  "budget": 2000000,
+  "themes": ["문화/역사", "관광명소", "음식/맛집"],
+  "travelers": {
+    "count": 3,
+    "type": "family"
+  }
+}
+
+{
+  "destination": {
+    "name": "태국 방콕 도시권 방콕",
+    "lat": 13.7563309,
+    "lng": 100.5017651
+  },
+  "start_date": "2024-02-20",
+  "end_date": "2024-02-26",
+  "budget": 2000000,
+  "themes": ["문화/역사", "관광명소", "음식/맛집"],
+  "travelers": {
+    "count": 3,
+    "type": "family"
+  }
+}
+

@@ -18,7 +18,7 @@ THEME_TO_PLACE_TYPE = {
     "자연/아웃도어": ["park", "natural_feature", "campground", "beach", "rv_park", "picnic_ground", "waterfall", "pier", "marina"],
     "음식/맛집": ["restaurant", "cafe", "bar", "bakery", "meal_takeaway", "meal_delivery", "ice_cream_shop"],
     "쇼핑": ["shopping_mall", "department_store", "market", "jewelry_store", "shoe_store", "clothing_store", "book_store", "electronics_store", "convenience_store", "supermarket"],
-    "휴양/힐링": ["spa", "beauty_salon", "amusement_park", "zoo", "hot_spring", "hair_care", "massage", "gym"]
+    "휴양/힐링": ["spa", "beauty_salon", "amusement_park", "zoo", "hot_spring", "hair_care", "massage", "gym", "establishment", "health"]
 }
 
 # Pydantic 모델 정의 (이전과 동일)

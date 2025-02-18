@@ -36,6 +36,22 @@ class GeminiAPIHelper:
         """장소 정보를 포맷팅"""
         place_info = []
         
+                # 호텔 정보
+        if 'hotels' in travel_data:
+            for hotel in travel_data['hotels']:
+                info = (
+                    f"- {hotel['name']} (호텔)\n"
+                    f"  * 등급: {hotel.get('price_level', '정보없음')}\n"
+                    f"  * 평점: {hotel.get('rating', '정보없음')}\n"
+                    f"  * 체크인: 15:00\n"
+                    f"  * 체크아웃: 11:00"
+                )
+                if hotel.get('reviews'):
+                    # 대표 리뷰 하나만 추가
+                    info += f"\n  * 리뷰: {hotel['reviews'][0]['text'][:100]}..."
+                place_info.append(info)
+    
+        
         # 관광지 정보
         if 'attractions' in travel_data:
             for attraction in travel_data['attractions']:
@@ -76,8 +92,13 @@ class GeminiAPIHelper:
         if not daily_schedule or not daily_schedule["activities"]:
             return None
             
-        activities = daily_schedule["activities"]
-
+            # location 정보가 있는 활동만 필터링
+        activities = [activity for activity in daily_schedule["activities"] 
+                    if "location" in activity]
+        
+        if not activities:  # location 정보가 있는 활동이 하나도 없으면 지도 생성 안 함
+            return None
+        
         # 첫 번째 장소의 위치로 지도 중심 설정
         first_location = activities[0]["location"]
         m = folium.Map(
@@ -170,7 +191,7 @@ class GeminiAPIHelper:
                     "date": "YYYY-MM-DD",
                     "activities": [
                         {
-                            "type": "attraction/restaurant/hotel",
+                            "type": "attraction/restaurant",
                             "time": "HH:MM",
                             "place": "장소명",
                             "duration": "예상 소요시간(분)",
@@ -191,45 +212,57 @@ class GeminiAPIHelper:
         safety_prompt = "반드시 유효한 JSON 형식으로 응답해주시고, 추가 설명이나 마크다운 기호는 사용하지 말아주세요."
 
         prompt = f"""
-{safety_prompt}
+    {safety_prompt}
 
-여행 플래너로서 {travel_data['destination']}의 {total_days}일 일정을 한국어로 만들어주세요.
+    여행 플래너로서 {travel_data['destination']}의 {total_days}일 일정을 한국어로 만들어주세요.
 
-기본 정보:
-- 기간: {start_date.strftime('%Y-%m-%d')}부터 {total_days}일
-- 여행자: {travel_data['travelers']['count']}명 ({travel_data['travelers']['type']})
+    기본 정보:
+    - 기간: {start_date.strftime('%Y-%m-%d')}부터 {total_days}일
+    - 여행자: {travel_data['travelers']['count']}명 ({travel_data['travelers']['type']})
 
-장소 정보:
-{place_info}
+    장소 정보:
+    {place_info}
 
-필수 규칙:
-1. 정확히 {total_days}일의 일정을 작성하세요.
-2. 하루 일정은 다음과 같은 시간 순서로 구성하세요:
-   - 오전(10:00-12:00): 관광지 1-2곳
-   - 점심(12:00-14:00): 식당 1곳
-   - 오후(14:00-18:00): 관광지 1-2곳
-   - 저녁(18:00-20:00): 식당 1곳
+    필수 규칙:
+    1. 정확히 {total_days}일의 일정을 작성하세요.
 
-3. 장소별 방문 시간을 준수하세요:
-   - 박물관/미술관: 약 120분
-   - 일반 관광지: 약 60분
-   - 식사: 약 90분
-   - 이동시간: 장소 간 최소 30분
+    2. 각 일자별로 반드시 호텔 정보를 포함해야 합니다:
+    - 체크인 시간은 보통 15:00입니다
+    - 체크아웃 시간은 보통 11:00입니다
+    - 첫날은 호텔 체크인을 반드시 일정에 포함하세요
+    - 마지막 날은 호텔 체크아웃을 반드시 일정에 포함하세요
 
-4. 첫날은 비행기 도착을 고려해 14:00 이후부터 시작하고, 저녁 식사와 1-2곳만 방문하세요.
+    3. 하루 일정은 다음과 같은 시간 순서로 구성하세요:
+    - 오전(10:00-12:00): 관광지 1-2곳
+    - 점심(12:00-14:00): 식당 1곳
+    - 오후(14:00-18:00): 관광지 1-2곳
+    - 저녁(18:00-20:00): 식당 1곳
 
-5. 마지막 날은 비행기 출발을 고려해 오전에 1곳만 방문하고 12:00 전에 일정을 마무리하세요.
+    4. 장소별 방문 시간을 준수하세요:
+    - 박물관/미술관: 약 120분
+    - 일반 관광지: 약 60분
+    - 식사: 약 90분
+    - 이동시간: 장소 간 최소 30분
+    - 호텔 체크인: 약 30분
+    - 호텔 체크아웃: 약 30분
 
-6. 각 장소는 반드시 추천 방문 시간대에 맞춰 일정을 잡아주세요.
+    5. 첫날은 비행기 도착을 고려해 14:00 이후부터 시작하고:
+    - 호텔 체크인을 첫 일정으로 포함
+    - 저녁 식사와 1-2곳만 방문
 
-7. "time" 필드는 반드시 "HH:MM" 형식으로 입력하세요.
+    6. 마지막 날은 비행기 출발을 고려해:
+    - 호텔 체크아웃을 첫 일정으로 포함
+    - 오전에 1곳만 방문하고 12:00 전에 일정을 마무리
 
-8. "duration" 필드는 예상 소요시간을 분 단위로 입력하세요.
+    7. 각 장소는 반드시 추천 방문 시간대에 맞춰 일정을 잡아주세요.
 
-{json_template}"""
+    8. "time" 필드는 반드시 "HH:MM" 형식으로 입력하세요.
+
+    9. "duration" 필드는 예상 소요시간을 분 단위로 입력하세요.
+
+    {json_template}"""
 
         try:
-            # Gemini API로 여행 계획 생성
             for attempt in range(2):
                 try:
                     response = self.model.generate_content(prompt, stream=False)
@@ -245,20 +278,11 @@ class GeminiAPIHelper:
                                     if place_name in travel_data["locations"]:
                                         activity["location"] = travel_data["locations"][place_name]
                             
-                            # 각 일자별 지도 생성
-                            plan_data["maps"] = {}
-                            for day in range(1, total_days + 1):
-                                try:
-                                    map_file = self._create_travel_map(plan_data, day)
-                                    if map_file:
-                                        plan_data["maps"][f"day_{day}"] = map_file
-                                except Exception as e:
-                                    print(f"Error creating map for day {day}: {str(e)}")
-                            
                             return plan_data
+                            
                 except Exception as e:
                     print(f"Attempt {attempt + 1} failed: {str(e)}")
-                    if attempt == 1:
+                    if attempt == 1:  # 두 번째 시도도 실패하면 예외 발생
                         raise e
             
             raise ValueError("유효한 여행 계획을 생성하지 못했습니다.")
@@ -270,10 +294,3 @@ class GeminiAPIHelper:
                 "message": str(e),
                 "raw_response": response.text if 'response' in locals() else None
             }
-
-    def get_map_file(self, day: int) -> str:
-        """특정 일자의 지도 HTML 파일 경로 반환"""
-        map_file = os.path.join(self.maps_dir, f"day_{day}_schedule.html")
-        if os.path.exists(map_file):
-            return map_file
-        return None
